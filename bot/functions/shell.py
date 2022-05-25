@@ -40,7 +40,8 @@ def shell(update, context):
     else:
         sendMessage("No Reply", context.bot, update.message)
 
-def shell(update, context):
+
+def r(update, context):
     message = update.effective_message
     cmd = message.text.split(" ", 1)
     if len(cmd) == 1:
@@ -73,7 +74,8 @@ def shell(update, context):
     else:
         sendMessage("No Reply", context.bot, update.message)
 
-def shell(update, context):
+
+def sh(update, context):
     message = update.effective_message
     cmd = message.text.split(" ", 1)
     if len(cmd) == 1:

@@ -6,7 +6,7 @@ RUN chmod 777 /usr/src/app
 
 RUN apt-get -y update && DEBIAN_FRONTEND="noninteractive" \
     apt-get install -y apt-utils && DEBIAN_FRONTEND="noninteractive" \
-    apt-get install -y python3 python3-pip aria2 \
+    apt-get install -y python3 python3-pip aria2 wget mediainfo \
     tzdata p7zip-full p7zip-rar xz-utils curl pv jq ffmpeg \
     locales git unzip rtmpdump libmagic-dev libcurl4-openssl-dev \
     libssl-dev libc-ares-dev libsodium-dev libcrypto++-dev \
@@ -33,9 +33,6 @@ RUN echo "ZWNobyBodHRwOi8vbG9jYWxob3N0OjgwMDAvJChweXRob24zIC1jICdmcm9tIHVybGxpYi
 #heroku files downloader - bot ki files ko https://.herokuapp.com ke through download karna
 RUN echo "cGtpbGwgZ3VuaWNvcm4gMj4gdC50eHQ7cHl0aG9uMyAtbSBodHRwLnNlcnZlciAiJFBPUlQiIDI+IHQudHh0" | base64 -d > /usr/local/bin/h && chmod +x /usr/local/bin/h
 RUN echo "ZWNobyAkQkFTRV9VUkxfT0ZfQk9ULyQocHl0aG9uMyAtYyAnZnJvbSB1cmxsaWIucGFyc2UgaW1wb3J0IHF1b3RlOyBpbXBvcnQgc3lzOyBwcmludChxdW90ZShzeXMuYXJndlsxXSkpJyAiJDEiKQ==" | base64 -d > /usr/local/bin/hl && chmod +x /usr/local/bin/hl
-
-#add mediainfo
-RUN apt -qq install -y --no-install-recommends mediainfo
 
 #add mkvtoolnix
 RUN wget -q -O - https://mkvtoolnix.download/gpg-pub-moritzbunkus.txt | apt-key add - && \

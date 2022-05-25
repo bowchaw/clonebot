@@ -6,8 +6,8 @@ RUN chmod 777 /usr/src/app
 
 RUN apt-get -y update && DEBIAN_FRONTEND="noninteractive" \
     apt-get install -y apt-utils && DEBIAN_FRONTEND="noninteractive" \
-    apt-get install -y python3 python3-pip mediainfo aria2 \
-    tzdata p7zip-full p7zip-rar xz-utils curl pv jq ffmpeg \
+    apt-get install -y python3 python3-pip aria2 \
+    tzdata p7zip-full p7zip-rar xz-utils curl pv jq ffmpeg mediainfo \
     locales git unzip rtmpdump libmagic-dev libcurl4-openssl-dev \
     libssl-dev libc-ares-dev libsodium-dev libcrypto++-dev \
     libsqlite3-dev libfreeimage-dev libpq-dev libffi-dev \	

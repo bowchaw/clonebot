@@ -50,8 +50,6 @@ from .functions import (
     mirror,
     clone,
     watch,
-    run,
-    sh,
     shell,
     eval,
     delete,

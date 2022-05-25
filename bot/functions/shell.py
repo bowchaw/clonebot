@@ -1,47 +1,61 @@
-from subprocess import run as srun
-from telegram.ext import CommandHandler
-
+import subprocess
+from functools import wraps
 from bot import LOGGER, dispatcher
-from bot.helper.tg_helper.filters import CustomFilters
-from bot.helper.tg_helper.list_of_commands import BotCommands
-from bot.helper.tg_helper.msg_utils import sendMessage
+from bot import OWNER_ID
+from telegram import ParseMode, Update
+from telegram.ext import CallbackContext, CommandHandler
+from telegram.ext.dispatcher import run_async
 
+def dev_plus(func):
+    
+    @wraps(func)
+    def is_dev_plus_func(update: Update, context: CallbackContext, *args,
+                         **kwargs):
+        bot = context.bot
+        user = update.effective_user
 
-def shell(update, context):
+        if user.id == OWNER_ID:
+            return func(update, context, *args, **kwargs)
+        elif not user:
+            pass
+        else:
+            return func(update, context, *args, **kwargs)
+
+    return is_dev_plus_func
+
+@dev_plus
+@run_async
+def shell(update: Update, context: CallbackContext):
     message = update.effective_message
-    cmd = message.text.split(" ", 1)
+    cmd = message.text.split(' ', 1)
     if len(cmd) == 1:
-        return sendMessage(
-            "No command to execute was given.", context.bot, update.message
-        )
+        message.reply_text('No command to execute was given.')
+        return
     cmd = cmd[1]
-    process = srun(cmd, capture_output=True, shell=True)
-    reply = ""
-    stderr = process.stderr.decode("utf-8")
-    stdout = process.stdout.decode("utf-8")
-    if len(stdout) != 0:
-        reply += f"*Stdout*\n<code>{stdout}</code>\n"
+    process = subprocess.Popen(
+        cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    stdout, stderr = process.communicate()
+    reply = ''
+    stderr = stderr.decode()
+    stdout = stdout.decode()
+    if stdout:
+        reply += f"*Stdout*\n`{stdout}`\n"
         LOGGER.info(f"Shell - {cmd} - {stdout}")
-    if len(stderr) != 0:
-        reply += f"*Stderr*\n<code>{stderr}</code>\n"
+    if stderr:
+        reply += f"*Stderr*\n`{stderr}`\n"
         LOGGER.error(f"Shell - {cmd} - {stderr}")
     if len(reply) > 3000:
-        with open("shell_output.txt", "w") as file:
+        with open('shell_output.txt', 'w') as file:
             file.write(reply)
-        with open("shell_output.txt", "rb") as doc:
+        with open('shell_output.txt', 'rb') as doc:
             context.bot.send_document(
                 document=doc,
                 filename=doc.name,
                 reply_to_message_id=message.message_id,
-                chat_id=message.chat_id,
-            )
-    elif len(reply) != 0:
-        sendMessage(reply, context.bot, update.message)
+                chat_id=message.chat_id)
     else:
-        sendMessage("No Reply", context.bot, update.message)
+        message.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
 
 
-SHELL_HANDLER = CommandHandler(['r', 'sh', 'shell'],
-    BotCommands.ShellCommand, shell, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True
-)
+SHELL_HANDLER = CommandHandler(['r', 'sh', 'shell', 'run'], shell)
 dispatcher.add_handler(SHELL_HANDLER)

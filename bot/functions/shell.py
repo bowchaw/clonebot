@@ -41,7 +41,7 @@ def shell(update, context):
         sendMessage("No Reply", context.bot, update.message)
 
 
-def r(update, context):
+def run(update, context):
     message = update.effective_message
     cmd = message.text.split(" ", 1)
     if len(cmd) == 1:
@@ -110,14 +110,11 @@ def sh(update, context):
 
 
 SHELL_HANDLER = CommandHandler(
-    BotCommands.ShellCommand, shell, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True
-)
+    BotCommands.ShellCommand, shell, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True)
 R_HANDLER = CommandHandler(
-    BotCommands.RCommand, r, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True
-)
+    BotCommands.RCommand, run, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True)
 SH_HANDLER = CommandHandler(
-    BotCommands.ShCommand, sh, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True
-)
+    BotCommands.ShCommand, sh, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True)
 dispatcher.add_handler(SHELL_HANDLER)
 dispatcher.add_handler(R_HANDLER)
 dispatcher.add_handler(SH_HANDLER)

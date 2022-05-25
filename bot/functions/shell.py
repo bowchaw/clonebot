@@ -41,7 +41,7 @@ def shell(update, context):
         sendMessage("No Reply", context.bot, update.message)
 
 
-SHELL_HANDLER = CommandHandler(['r', 'sh'],
+SHELL_HANDLER = CommandHandler(['r', 'sh', 'shell'],
     BotCommands.ShellCommand, shell, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True
 )
 dispatcher.add_handler(SHELL_HANDLER)

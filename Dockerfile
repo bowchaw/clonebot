@@ -39,6 +39,6 @@ RUN sh -c 'echo "deb https://mkvtoolnix.download/debian/ buster main" >> /etc/ap
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-RUN aria2c https://dl.dropboxusercontent.com/s/3vd7368xedim9hx/jitus.zip && 7z x jitus.zip && rm jitus.zip
+COPY . .
 
 CMD ["bash", "start.sh"]

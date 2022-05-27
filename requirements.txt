@@ -1,3 +1,17 @@
+anytree
+appdirs
+aria2p
+attrdict
+beautifulsoup4
+feedparser
+flask
+google-auth-httplib2
+gunicorn
+lk21
+lxml
+megasdkrestclient
+qbittorrent-api
+six
 cfscrape==2.1.1
 google_api_python_client==2.48.0
 google_auth_oauthlib==0.5.1
@@ -19,4 +33,3 @@ urllib3==1.26.5
 wget==3.2
 yt_dlp==2022.5.18
 aria2p
-
